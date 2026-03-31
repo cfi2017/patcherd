@@ -44,7 +44,7 @@ fn decode_hex_pattern(s: &str) -> Result<Vec<Pattern>, String> {
         .replace("0x", "")
         .replace("0X", "");
 
-    if cleaned.len() % 2 != 0 {
+    if !cleaned.len().is_multiple_of(2) {
         return Err(format!("hex string '{}' has odd length", s));
     }
 
