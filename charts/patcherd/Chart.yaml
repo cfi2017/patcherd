@@ -1,0 +1,12 @@
+apiVersion: v2
+name: patcherd
+description: Kubernetes runtime binary patcher — mutating webhook that patches binaries in-place without modifying container images
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+home: https://github.com/cfi2017/patcherd
+sources:
+  - https://github.com/cfi2017/patcherd
+maintainers:
+  - name: cfi2017
+    url: https://github.com/cfi2017

@@ -1,0 +1,28 @@
+{{- if .Values.certManager.enabled }}
+{{- if .Values.certManager.createIssuer }}
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: {{ .Values.certManager.issuerRef.name }}
+  labels:
+    {{- include "patcherd.labels" . | nindent 4 }}
+spec:
+  selfSigned: {}
+---
+{{- end }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "patcherd.tlsSecretName" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "patcherd.labels" . | nindent 4 }}
+spec:
+  secretName: {{ include "patcherd.tlsSecretName" . }}
+  dnsNames:
+    - {{ include "patcherd.fullname" . }}.{{ .Release.Namespace }}.svc
+    - {{ include "patcherd.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  issuerRef:
+    kind: {{ .Values.certManager.issuerRef.kind }}
+    name: {{ .Values.certManager.issuerRef.name }}
+{{- end }}

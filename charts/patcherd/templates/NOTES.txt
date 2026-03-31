@@ -1,0 +1,24 @@
+patcherd has been installed.
+
+1. Create a PatchRule to start patching binaries:
+
+   apiVersion: patcher.k8s.io/v1alpha1
+   kind: PatchRule
+   metadata:
+     name: my-patch
+   spec:
+     selector:
+       matchLabels:
+         app: my-app
+     patches:
+       - binaryPath: /usr/bin/my-app
+         find: "DEADBEEFCAFEBABE"
+         replace: "0001020304050607"
+
+2. Verify the webhook is running:
+
+   kubectl get pods -n {{ .Release.Namespace }} -l {{ include "patcherd.selectorLabels" . | replace ": " "=" | replace "\n" "," }}
+
+3. Check that injection works on new pods:
+
+   kubectl get pod <pod-name> -o jsonpath='{.spec.initContainers[*].name}'

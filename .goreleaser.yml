@@ -1,0 +1,43 @@
+version: 2
+
+project_name: patcherd
+
+# Binaries are distributed as container images, not standalone archives.
+# GoReleaser is used here for changelog generation and GitHub release creation.
+# Docker images are built and pushed by the GitHub Actions workflow directly.
+builds: []
+
+changelog:
+  sort: asc
+  groups:
+    - title: Features
+      regexp: '^.*?feat(\(.+\))?\!?:.+$'
+      order: 0
+    - title: Bug Fixes
+      regexp: '^.*?fix(\(.+\))?\!?:.+$'
+      order: 1
+    - title: Others
+      order: 999
+  filters:
+    exclude:
+      - "^docs:"
+      - "^ci:"
+      - "^chore:"
+
+release:
+  github:
+    owner: cfi2017
+    name: patcherd
+  header: |
+    ## Docker Images
+
+    ```bash
+    docker pull ghcr.io/cfi2017/patcherd/patcher:{{ .Tag }}
+    docker pull ghcr.io/cfi2017/patcherd/webhook:{{ .Tag }}
+    ```
+
+    ## Helm
+
+    ```bash
+    helm install patcherd oci://ghcr.io/cfi2017/patcherd/charts/patcherd --version {{ .Version }}
+    ```

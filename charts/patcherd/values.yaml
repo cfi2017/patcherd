@@ -1,0 +1,43 @@
+replicaCount: 1
+
+image:
+  webhook:
+    repository: ghcr.io/cfi2017/patcherd/webhook
+    tag: ""  # defaults to appVersion
+    pullPolicy: IfNotPresent
+  patcher:
+    repository: ghcr.io/cfi2017/patcherd/patcher
+    tag: ""  # defaults to appVersion
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+
+webhook:
+  port: 9443
+  healthPort: 8081
+  failurePolicy: Ignore
+
+certManager:
+  enabled: true
+  issuerRef:
+    kind: ClusterIssuer
+    name: selfsigned-issuer
+  createIssuer: true
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 200m
+    memory: 128Mi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
