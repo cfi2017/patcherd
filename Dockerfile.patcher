@@ -3,6 +3,7 @@ RUN apk add --no-cache musl-dev
 WORKDIR /src
 COPY Cargo.toml Cargo.lock ./
 COPY src/ src/
+COPY benches/ benches/
 RUN cargo build --release --bin patcher
 
 FROM scratch
