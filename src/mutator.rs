@@ -143,10 +143,7 @@ fn apply_patch(
 
     let container_indices = containers_for_patch(spec, patch.container_name.as_deref());
     if container_indices.is_empty() {
-        info!(
-            "no matching containers for patch on {}",
-            patch.binary_path
-        );
+        info!("no matching containers for patch on {}", patch.binary_path);
     }
 
     for i in container_indices {

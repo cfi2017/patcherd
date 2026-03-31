@@ -1,4 +1,4 @@
-use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion, Throughput};
+use criterion::{BenchmarkId, Criterion, Throughput, criterion_group, criterion_main};
 use patcherd::search::{self, Pattern};
 
 // ---------------------------------------------------------------------------
@@ -64,12 +64,7 @@ fn bench_find_exact(c: &mut Criterion) {
     let pattern = pat(&needle);
 
     let mut group = c.benchmark_group("find_exact");
-    for &size in &[
-        1024usize,
-        64 * 1024,
-        1024 * 1024,
-        16 * 1024 * 1024,
-    ] {
+    for &size in &[1024usize, 64 * 1024, 1024 * 1024, 16 * 1024 * 1024] {
         let h = make_haystack(size, &needle, size / 10);
         group.throughput(Throughput::Bytes(size as u64));
 
@@ -91,12 +86,7 @@ fn bench_find_wildcard(c: &mut Criterion) {
     pattern[5] = Pattern::Wildcard; // DE AD ?? EF CA ?? BA BE
 
     let mut group = c.benchmark_group("find_wildcard");
-    for &size in &[
-        1024usize,
-        64 * 1024,
-        1024 * 1024,
-        16 * 1024 * 1024,
-    ] {
+    for &size in &[1024usize, 64 * 1024, 1024 * 1024, 16 * 1024 * 1024] {
         let h = make_haystack(size, &needle_bytes, size / 10);
         group.throughput(Throughput::Bytes(size as u64));
 
@@ -113,12 +103,7 @@ fn bench_replace(c: &mut Criterion) {
     let pattern = pat(&needle);
 
     let mut group = c.benchmark_group("replace");
-    for &size in &[
-        1024usize,
-        64 * 1024,
-        1024 * 1024,
-        16 * 1024 * 1024,
-    ] {
+    for &size in &[1024usize, 64 * 1024, 1024 * 1024, 16 * 1024 * 1024] {
         let h = make_haystack(size, &needle, size / 10);
         group.throughput(Throughput::Bytes(size as u64));
 
